@@ -1,0 +1,28 @@
+{
+  "name": "gaiya-backend",
+  "version": "1.0.0",
+  "description": "GAÏYA e-commerce backend — demo implementation of the product catalog, cart, checkout, and order management API. See README.md for what's production-ready and what isn't.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --experimental-sqlite server.js",
+    "dev": "node --experimental-sqlite --watch server.js",
+    "test": "node --experimental-sqlite test/smoke-test.js",
+    "reset-db": "node --experimental-sqlite -e \"require('./db/sqlite').reset(); console.log('Database reset and reseeded.')\""
+  },
+  "keywords": [
+    "gaiya",
+    "ecommerce",
+    "fashion"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

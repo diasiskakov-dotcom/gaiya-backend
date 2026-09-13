@@ -1,0 +1,3 @@
+{
+  "_comment": "English is the source language already written into the six HTML pages directly. This file exists so the RU translation in ru.json has a matching key structure to diff against as copy changes over time — it is not currently consumed by the frontend."
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your GAÏYA order is confirmed</title>
+</head>
+<body style="margin:0; padding:0; background-color:#F6F4F1; font-family:Georgia, 'Times New Roman', serif;">
+<!--
+  Order confirmation email — mirrors gaiya_confirmation.html.
+  Uses table-based layout and inline styles throughout because email
+  clients (Outlook especially) don't reliably support modern CSS —
+  this is the standard, tested approach for transactional email, not
+  a step backward from the site's actual CSS.
+
+  Template variables (replace when wiring to Postmark/Sendgrid):
+    orderNumber, customerFirstName, items (loop),
+    subtotal, shipping, total, shippingAddressLines,
+    shippingMethod, storeUrl — each wrapped in double curly braces
+    in the markup below.
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F6F4F1; padding:40px 0;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#F6F4F1; max-width:600px;">
+
+        <!-- Wordmark -->
+        <tr>
+          <td align="center" style="padding-bottom:32px;">
+            <span style="font-family:Georgia, serif; font-size:24px; letter-spacing:4px; color:#171614;">GAÏYA</span>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="border-top:1px solid #DCD8D1; padding-top:32px;"></td></tr>
+
+        <!-- Heading -->
+        <tr>
+          <td align="center" style="padding-bottom:32px;">
+            <p style="margin:0 0 8px; font-family:Arial, sans-serif; font-size:12px; letter-spacing:1px; color:#8F8A82; text-transform:uppercase;">Thank you</p>
+            <h1 style="margin:0 0 12px; font-family:Georgia, serif; font-weight:400; font-size:28px; color:#171614;">Your order is confirmed</h1>
+            <p style="margin:0; font-family:Arial, sans-serif; font-size:14px; line-height:1.6; color:#4a4844;">Hi {{customerFirstName}}, thank you for your order. We'll email you again once it ships.</p>
+          </td>
+        </tr>
+
+        <!-- Order number -->
+        <tr>
+          <td align="center" style="padding-bottom:32px;">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="border:1px solid #DCD8D1; padding:10px 20px; font-family:Arial, sans-serif; font-size:13px; color:#171614;">
+                  Order No. {{orderNumber}}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Order items -->
+        <tr>
+          <td style="border-top:1px solid #DCD8D1; padding-top:28px;">
+            <p style="margin:0 0 20px; font-family:Arial, sans-serif; font-size:11px; letter-spacing:1px; color:#8F8A82; text-transform:uppercase;">Order Summary</p>
+
+            <!-- BEGIN item loop: repeat this table block for each line item -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:18px;">
+              <tr>
+                <td width="64" style="vertical-align:top;">
+                  <img src="{{itemImageUrl}}" width="64" height="82" alt="{{itemName}}" style="display:block; object-fit:cover;">
+                </td>
+                <td style="vertical-align:top; padding-left:16px; font-family:Arial, sans-serif;">
+                  <p style="margin:0 0 4px; font-size:14px; color:#171614;">{{itemName}}</p>
+                  <p style="margin:0; font-size:12px; color:#8F8A82;">{{itemColor}} · {{itemSize}} · Qty {{itemQuantity}}</p>
+                </td>
+                <td width="90" align="right" style="vertical-align:top; font-family:Arial, sans-serif; font-size:13px; color:#171614; white-space:nowrap;">
+                  {{itemPrice}}
+                </td>
+              </tr>
+            </table>
+            <!-- END item loop -->
+
+          </td>
+        </tr>
+
+        <!-- Totals -->
+        <tr>
+          <td style="border-top:1px solid #DCD8D1; padding-top:20px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial, sans-serif; font-size:13px; color:#4a4844;">
+              <tr>
+                <td style="padding-bottom:10px;">Subtotal</td>
+                <td align="right" style="padding-bottom:10px;">{{subtotal}}</td>
+              </tr>
+              <tr>
+                <td style="padding-bottom:10px;">Shipping</td>
+                <td align="right" style="padding-bottom:10px;">{{shipping}}</td>
+              </tr>
+              <tr>
+                <td style="border-top:1px solid #DCD8D1; padding-top:14px; font-size:15px; color:#171614;">Total</td>
+                <td align="right" style="border-top:1px solid #DCD8D1; padding-top:14px; font-size:15px; color:#171614;">{{total}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Delivery details -->
+        <tr>
+          <td style="border-top:1px solid #DCD8D1; padding-top:28px; padding-bottom:28px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="50%" style="vertical-align:top; font-family:Arial, sans-serif;">
+                  <p style="margin:0 0 6px; font-size:11px; letter-spacing:1px; color:#8F8A82; text-transform:uppercase;">Delivery Address</p>
+                  <p style="margin:0; font-size:13px; line-height:1.7; color:#171614;">{{shippingAddressLines}}</p>
+                </td>
+                <td width="50%" style="vertical-align:top; font-family:Arial, sans-serif;">
+                  <p style="margin:0 0 6px; font-size:11px; letter-spacing:1px; color:#8F8A82; text-transform:uppercase;">Shipping</p>
+                  <p style="margin:0; font-size:13px; line-height:1.7; color:#171614;">{{shippingMethod}}</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- CTA -->
+        <tr>
+          <td align="center" style="border-top:1px solid #DCD8D1; padding-top:28px;">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background-color:#171614;">
+                  <a href="{{storeUrl}}" style="display:inline-block; padding:14px 28px; font-family:Arial, sans-serif; font-size:13px; letter-spacing:0.5px; color:#F6F4F1; text-decoration:none;">Continue Shopping</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td align="center" style="padding-top:36px; font-family:Arial, sans-serif; font-size:11px; color:#8F8A82; line-height:1.6;">
+            <p style="margin:0 0 4px;">Questions about your order? Reply to this email or contact Customer Care.</p>
+            <p style="margin:0;">© 2026 GAÏYA</p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
